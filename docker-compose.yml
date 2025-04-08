@@ -19,6 +19,7 @@ services:
 
   phpmyadmin:
     container_name: phpmyadmin_container
+    image: phpmyadmin
     environment:
       PMA_HOST: mysql
       PMA_USER: ${MYSQL_USER:-user}
