@@ -3,14 +3,16 @@ version: '3.9'
 services:
   mysql:
     container_name: mysql_container
-    image: mysql
+    image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-testdb}
       MYSQL_USER: ${MYSQL_USER:-user}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-changeme}
+      TZ: America/Guatemala
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_volume:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
     networks:
@@ -19,11 +21,11 @@ services:
 
   phpmyadmin:
     container_name: phpmyadmin_container
-    image: phpmyadmin
+    image: phpmyadmin:5.2
     environment:
       PMA_HOST: mysql
-      PMA_USER: ${MYSQL_USER:-user}
-      PMA_PASSWORD: ${MYSQL_PASSWORD:-changeme}
+      # PMA_USER: ${MYSQL_USER:-user}
+      # PMA_PASSWORD: ${MYSQL_PASSWORD:-changeme}
     ports:
       - "${PHPMYADMIN_PORT:-8080}:80"
     networks:
@@ -35,4 +37,4 @@ networks:
     driver: bridge
 
 volumes:
-  mysql_data:
+  mysql_volume:
