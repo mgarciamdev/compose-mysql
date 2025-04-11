@@ -33,7 +33,7 @@ Este archivo compose contiene las siguientes variables de entorno:
 * `MYSQL_PASSWORD`  El valor por defecto es **changeme**
 * `PHPMYADMIN_PORT`  El valor por defecto es **8080**
 
-Crear un archivo `.env` en la raiz del proyecto con las siguientes variables (para cambiar los valores por defecto mencionados anteriormente):
+Crear un archivo `.env` en la raiz del proyecto con las siguientes variables (puedes verificar en el archivo .env.example y observar como cambiar los datos):
 
 * `MYSQL_ROOT_PASSWORD`
 * `MYSQL_DATABASE` 
