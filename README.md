@@ -18,18 +18,28 @@ Este proyecto levanta un entorno de base de datos MySQL con una interfaz gráfic
 
 ---
 
+## ⚙️ Guia de Inicio
+* Clonar o descargar este repositorio
+* Ingresa al directorio con el siguiente,  `cd compose-mysql`
+* Ejecuta el siguiente comando `docker-compose up -d`
+
 ## ⚙️ Archivo .env.example 🧪
 
-Crea un archivo `.env` en la raiz del proyecto con las siguientes variables (puedes cambiar los valores según necesites):
+Este archivo compose contiene las siguientes variables de entorno:
 
-```env
-MYSQL_ROOT_PASSWORD=root
-MYSQL_DATABASE=testdb
-MYSQL_USER=user
-MYSQL_PASSWORD=changeme
-PHPMYADMIN_PORT=8080
-```
+* `MYSQL_ROOT_PASSWORD`  El valor por defecto es **root**
+* `MYSQL_DATABASE`  El valor por defecto es **testdb**
+* `MYSQL_USER`  El valor por defecto es **user**
+* `MYSQL_PASSWORD`  El valor por defecto es **changeme**
+* `PHPMYADMIN_PORT`  El valor por defecto es **8080**
 
+Crear un archivo `.env` en la raiz del proyecto con las siguientes variables (para cambiar los valores por defecto mencionados anteriormente):
+
+* `MYSQL_ROOT_PASSWORD`
+* `MYSQL_DATABASE` 
+* `MYSQL_USER`  
+* `MYSQL_PASSWORD`  
+* `PHPMYADMIN_PORT`
 
 ## 🗂️ Estructura del proyecto
 ```text
@@ -39,6 +49,23 @@ PHPMYADMIN_PORT=8080
 ├── .env.example         # Plantilla para crear tu archivo .env
 └── README.md            # Documentación del proyecto
 ```
+---
+
+## 🌐 Acceso a los servicios
+- 🐬 Acceso a MySQL:
+  - Host: `localhost`
+  - Puerto: `3306`
+  - Usuario: `${MYSQL_USER:-user}`
+  - Contraseña: `${MYSQL_PASSWORD:-changeme}`
+  - Base de datos: `${MYSQL_DATABASE:-testdb}`
+    
+- 🧭 Acceso a phpMyAdmin:
+  - URL: `http://localhost:8080`
+  - Host del Servidor MySQL: `mysql`
+  - Usuario: `${MYSQL_USER:-user}`
+  - Contraseña: `${MYSQL_PASSWORD:-changeme}`
+    - Usuario raiz: `root`
+    - Contraseña de root: `root`
 
 ---
 
@@ -47,11 +74,11 @@ PHPMYADMIN_PORT=8080
 
 - En producción, asegúrate de:
 
-- Cambiar las contraseñas por defecto.
+  - Cambiar las contraseñas por defecto.
 
-- Limitar acceso desde IPs específicas.
+  - Limitar acceso desde IPs específicas.
 
-- Usar almacenamiento persistente seguro y respaldos.
+  - Usar almacenamiento persistente seguro y respaldos.
 
 ---
 
@@ -60,13 +87,3 @@ PHPMYADMIN_PORT=8080
 - [Khezen/compose-postgres](https://github.com/khezen/compose-postgres)
 - [Docker Hub - phpMyAdmin](https://hub.docker.com/_/phpmyadmin)
 - [Docker Hub - MySQL](https://hub.docker.com/_/mysql)
-
----
-
-## 5. **Badges (opcional pero cool )**
-
-```markdown
-![Docker](https://img.shields.io/badge/docker-compose-blue?logo=docker)
-![MySQL](https://img.shields.io/badge/mysql-8.0-orange?logo=mysql)
-![phpMyAdmin](https://img.shields.io/badge/phpMyAdmin-UI-yellow?logo=phpmyadmin)
-```
