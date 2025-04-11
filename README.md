@@ -1,4 +1,4 @@
-# 🚀 Proyecto Docker Compose: MySQL + phpMyAdmin 🐬
+# 🐬 Proyecto Docker Compose: MySQL + phpMyAdmin 
 
 Este proyecto levanta un entorno de base de datos MySQL con una interfaz gráfica phpMyAdmin utilizando Docker Compose. Tambien incluye configuración para varaibles de entorno y un script de inicialización para otorgar permisos al usuario.
 
@@ -32,37 +32,41 @@ PHPMYADMIN_PORT=8080
 
 
 ## 🗂️ Estructura del proyecto
+```text
 .
-├── docker-compose.yml
-├── init.sql
-└── .env
+├── docker-compose.yml   # Define los servicios MySQL y phpMyAdmin
+├── init.sql             # Script SQL de inicialización con privilegios
+├── .env.example         # Plantilla para crear tu archivo .env
+└── README.md            # Documentación del proyecto
+```
 
 ---
 
 ## 📝 Notas
-Este entorno es para uso local o pruebas.
+- Este entorno es para uso local o pruebas.
 
-En producción, asegúrate de:
+- En producción, asegúrate de:
 
-Cambiar las contraseñas por defecto.
+- Cambiar las contraseñas por defecto.
 
-Limitar acceso desde IPs específicas.
+- Limitar acceso desde IPs específicas.
 
-Usar almacenamiento persistente seguro y respaldos.
-
----
-
-## 📌 Inspirado en
-
-** Khezen/compose-postgres
-** Docker Hub - phpMyAdmin
-** Docker hub - MySQL
+- Usar almacenamiento persistente seguro y respaldos.
 
 ---
 
-## 5. **Badges (opcional pero cool 😎)**
+## 📌 Inspirado en 😎
+
+- [Khezen/compose-postgres](https://github.com/khezen/compose-postgres)
+- [Docker Hub - phpMyAdmin](https://hub.docker.com/_/phpmyadmin)
+- [Docker Hub - MySQL](https://hub.docker.com/_/mysql)
+
+---
+
+## 5. **Badges (opcional pero cool )**
 
 ```markdown
 ![Docker](https://img.shields.io/badge/docker-compose-blue?logo=docker)
 ![MySQL](https://img.shields.io/badge/mysql-8.0-orange?logo=mysql)
 ![phpMyAdmin](https://img.shields.io/badge/phpMyAdmin-UI-yellow?logo=phpmyadmin)
+```
