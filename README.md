@@ -28,6 +28,7 @@ MYSQL_DATABASE=testdb
 MYSQL_USER=user
 MYSQL_PASSWORD=changeme
 PHPMYADMIN_PORT=8080
+```
 
 
 ## 🗂️ Estructura del proyecto
