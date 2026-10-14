@@ -20,64 +20,101 @@ Este proyecto levanta un entorno de base de datos MySQL con una interfaz gráfic
 
 ## ⚙️ Guia de Inicio
 * Clonar o descargar este repositorio
-* Ingresa al directorio con el siguiente,  `cd compose-mysql`
-* Ejecuta el siguiente comando `docker-compose up -d`
+* Ingresa al directorio del proyecto:
+  
+  ```
+  cd compose-mysql
+  ```
+* Creat tu archivo `.env` a partir de la plantilla:
+  
+  ```bash
+  cp .env.example .env
+  ```
+* Levanta los servicios:
+  
+  ```
+  docker compose up -d
+  ```
+* Verifica que estén corriendo:
+  
+  ```
+  docker compose ps
+  ```
+---
 
-## ⚙️ Archivo .env.example 🧪
+## 🧪 Variables de entorno
 
-Este archivo compose contiene las siguientes variables de entorno:
+Las variables se definen en el archivo `.env` (puedes basarte en `.env.example` y cambiar los valores):
 
-* `MYSQL_ROOT_PASSWORD`  El valor por defecto es **root**
-* `MYSQL_DATABASE`  El valor por defecto es **testdb**
-* `MYSQL_USER`  El valor por defecto es **user**
-* `MYSQL_PASSWORD`  El valor por defecto es **changeme**
-* `PHPMYADMIN_PORT`  El valor por defecto es **8080**
+| Variable              | Valor por defecto | Descripción                          |
+| --------------------- | ----------------- | ------------------------------------ |
+| `MYSQL_ROOT_PASSWORD` | `root`            | Contraseña del usuario root          |
+| `MYSQL_DATABASE`      | `testdb`          | Base de datos que se crea al iniciar |
+| `MYSQL_USER`          | `user`            | Usuario de la aplicación             |
+| `MYSQL_PASSWORD`      | `changeme`        | Contraseña del usuario de la app     |
+| `PHPMYADMIN_PORT`     | `8080`            | Puerto local de phpMyAdmin           |
 
-Crear un archivo `.env` en la raiz del proyecto con las siguientes variables (puedes verificar en el archivo .env.example y observar como cambiar los datos):
-
-* `MYSQL_ROOT_PASSWORD`
-* `MYSQL_DATABASE` 
-* `MYSQL_USER`  
-* `MYSQL_PASSWORD`  
-* `PHPMYADMIN_PORT`
+---
 
 ## 🗂️ Estructura del proyecto
+
 ```text
 .
 ├── docker-compose.yml   # Define los servicios MySQL y phpMyAdmin
-├── init.sql             # Script SQL de inicialización con privilegios
+├── init.sh              # Otorga al usuario permisos solo sobre su base de datos
 ├── .env.example         # Plantilla para crear tu archivo .env
+├── .gitignore           # Evita subir el archivo .env
+├── .gitattributes       # Mantiene los saltos de línea LF en los scripts .sh
 └── README.md            # Documentación del proyecto
 ```
+
 ---
 
 ## 🌐 Acceso a los servicios
-- 🐬 Acceso a MySQL:
+
+- 🐬 **MySQL**
   - Host: `localhost`
   - Puerto: `3306`
-  - Usuario: `${MYSQL_USER:-user}`
-  - Contraseña: `${MYSQL_PASSWORD:-changeme}`
-  - Base de datos: `${MYSQL_DATABASE:-testdb}`
-    
-- 🧭 Acceso a phpMyAdmin:
-  - URL: `http://localhost:8080`
-  - Host del Servidor MySQL: `mysql`
-  - Usuario: `${MYSQL_USER:-user}`
-  - Contraseña: `${MYSQL_PASSWORD:-changeme}`
-    - Usuario raiz: `root`
-    - Contraseña de root: `root`
+  - Usuario: el valor de `MYSQL_USER` (por defecto `user`)
+  - Contraseña: el valor de `MYSQL_PASSWORD` (por defecto `changeme`)
+  - Base de datos: el valor de `MYSQL_DATABASE` (por defecto `testdb`)
+
+- 🧭 **phpMyAdmin**
+  - URL: `http://localhost:8080` (o el puerto definido en `PHPMYADMIN_PORT`)
+  - Host del servidor MySQL: `mysql`
+  - Usuario y contraseña: los mismos de `MYSQL_USER` y `MYSQL_PASSWORD`
+  - Usuario root: `root` con la contraseña de `MYSQL_ROOT_PASSWORD` (solo para desarrollo local)
+
+---
+
+## 🔐 Permisos y seguridad
+
+- El usuario `MYSQL_USER` recibe permisos únicamente sobre `MYSQL_DATABASE` (principio de mínimo privilegio). Lo configura el script `init.sh`.
+- El puerto 3306 solo es accesible desde tu máquina (`127.0.0.1`).
+- El archivo `.env` está en `.gitignore`: nunca subas credenciales reales al repositorio.
+
+---
+
+## 🛠️ Comandos útiles
+
+```bash
+docker compose up -d        # Levantar los servicios
+docker compose ps           # Ver el estado de los servicios
+docker compose logs mysql   # Ver los logs de MySQL
+docker compose down         # Detener (conserva los datos)
+docker compose down -v      # Detener y borrar los datos
+```
 
 ---
 
 ## 📝 Notas
+
 - Este entorno es para uso local o pruebas.
-
+- Los scripts de inicialización solo se ejecutan la primera vez, cuando el volumen está vacío. Para reiniciar desde cero (borra todos los datos): `docker compose down -v`.
+- En Windows, `init.sh` debe usar saltos de línea LF; de lo contrario el contenedor mostrará el error `\r: command not found`.
 - En producción, asegúrate de:
-
   - Cambiar las contraseñas por defecto.
-
-  - Limitar acceso desde IPs específicas.
-
+  - Limitar el acceso desde IPs específicas.
   - Usar almacenamiento persistente seguro y respaldos.
 
 ---
